@@ -1,8 +1,9 @@
 # docker-compose.yml
-version: '3'
+version: '3.1'
 services:
   database:
     image: "postgres" # use latest official postgres version
+    restart: always
     env_file:
       - database.env # configure postgres
     volumes:

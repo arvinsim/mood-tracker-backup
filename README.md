@@ -1,5 +1,7 @@
 # Mood Tracker App
 
+https://vercel.com/guides/nextjs-prisma-postgres#step-1:-set-up-your-next.js-starter-project
+
 ## Getting Started
 
 First, run the development server:

@@ -10,33 +10,15 @@ generator client {
   provider = "prisma-client-js"
 }
 
-
-model Post {
-  id        Int     @default(autoincrement()) @id
-  title     String
-  content   String?
-  published Boolean @default(false)
-  author    User?   @relation(fields: [authorId], references: [id])
-  authorId  Int?
-}
-
-model User {
-  id            Int       @default(autoincrement()) @id
-  name          String?
-  email         String?   @unique
-  createdAt     DateTime  @default(now()) @map(name: "created_at")
-  updatedAt     DateTime  @updatedAt @map(name: "updated_at")
-  posts         Post[]
-  @@map(name: "users")
-}
-
 model Mood {
   id        Int     @default(autoincrement()) @id
   name      String
+  moodLogs  MoodLog[]
 }
 
 model MoodLog {
   id        Int     @default(autoincrement()) @id
   createdAt DateTime @default(now())
-  mood      Mood
+  mood      Mood    @relation(fields: [moodId], references: [id])
+  moodId    Int
 }
