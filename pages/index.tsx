@@ -32,10 +32,10 @@ const Home: NextPage = () => {
             </a>
           </Link>
 
-          <Link href={"/analytics"}>
-            <a href="/analytics" className={styles.card}>
-              <h2>Analytics &rarr;</h2>
-              <p>See your mood this week.</p>
+          <Link href={"/data"}>
+            <a href="/data" className={styles.card}>
+              <h2>Data Analytics &rarr;</h2>
+              <p>See your mood analysis this week.</p>
             </a>
           </Link>
 

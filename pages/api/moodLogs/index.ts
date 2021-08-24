@@ -37,8 +37,5 @@ export default async function handler(
       }
       throw e;
     }
-  } else {
-    // Handle
-    res.status(200).json({ name: "Mood Logs" });
   }
 }

@@ -4,7 +4,7 @@ import prisma from "../lib/prisma";
 import type { MoodLog } from "@prisma/client";
 import type { NextPage } from "next";
 
-const AnalyticsPage: NextPage<{ moodLogs: MoodLog[] }> = ({ moodLogs }) => {
+const DataPage: NextPage<{ moodLogs: MoodLog[] }> = ({ moodLogs }) => {
   return (
     <div>
       <h1>These is how you have been feeling this week!</h1>
@@ -28,4 +28,4 @@ export const getMoodLogs = async () => {
   return await prisma.moodLog.findMany();
 };
 
-export default AnalyticsPage;
+export default DataPage;
