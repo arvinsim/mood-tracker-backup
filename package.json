@@ -13,7 +13,7 @@
     "next": "11.1.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",
-    "swr": "^0.5.6"
+    "recharts": "^2.1.2"
   },
   "devDependencies": {
     "@types/react": "17.0.19",
