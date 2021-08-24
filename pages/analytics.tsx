@@ -1,4 +1,3 @@
-import { Prisma } from "@prisma/client";
 import { GetServerSideProps } from "next";
 import prisma from "../lib/prisma";
 

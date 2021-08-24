@@ -37,29 +37,40 @@ export const getMoods = async () => {
 };
 
 export const createMoodLog = async (props: { mood: Mood }) => {
-  const { mood } = props;
-  const data: Prisma.MoodLogCreateInput = {
-    mood: {
-      connect: {
-        id: mood.id,
-      },
-    },
-    createdAt: new Date(),
-  };
-
   try {
-    await prisma.moodLog.create({ data });
+    const response = await fetch("/api/moodLogs", {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    });
+    console.log(response);
   } catch (e) {
-    if (e instanceof Prisma.PrismaClientKnownRequestError) {
-      // The .code property can be accessed in a type-safe manner
-      if (e.code === "P2002") {
-        console.log(
-          "There is a unique constraint violation, a new user cannot be created with this email"
-        );
-      }
-    }
-    throw e;
+    console.error(e);
   }
+
+  // const { mood } = props;
+  // const data: Prisma.MoodLogCreateInput = {
+  //   mood: {
+  //     connect: {
+  //       id: mood.id,
+  //     },
+  //   },
+  //   createdAt: new Date(),
+  // };
+  // try {
+  // await prisma.moodLog.create({ data });
+  // } catch (e) {
+  //   console.log(e);
+  //   debugger;
+  //   if (e instanceof Prisma.PrismaClientKnownRequestError) {
+  //     // The .code property can be accessed in a type-safe manner
+  //     if (e.code === "P2002") {
+  //       console.log(
+  //         "There is a unique constraint violation, a new user cannot be created with this email"
+  //       );
+  //     }
+  //   }
+  //   throw e;
+  // }
 };
 
 export default MoodsPage;
