@@ -6,12 +6,13 @@ import type { Mood } from "@prisma/client";
 
 export function MoodButtons({ moods }: { moods: Mood[] }) {
   return (
-    <div className="flex flex-row flex-auto">
+    <div className="flex flex-row flex-auto w-full justify-around">
       {moods.map((mood) => {
         return (
           <div
             onClick={async () => await createMoodLog({ mood })}
             key={mood.id}
+            className={"cursor-pointer"}
           >
             <Image
               src={mood.id === 1 ? HappySmileyIcon : SadSmileyIcon}

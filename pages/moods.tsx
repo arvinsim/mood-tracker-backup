@@ -1,29 +1,28 @@
+import type { NextPage } from "next";
 import { GetServerSideProps } from "next";
-import Image from "next/image";
 import prisma from "../lib/prisma";
-import HappySmiley from "../components/MoodButtons/happy-smiley.svg";
 
 import type { Mood } from "@prisma/client";
-import type { NextPage } from "next";
 import { MoodButtons } from "../components/MoodButtons";
+import { Footer } from "../components/Footer";
 
 const MoodsPage: NextPage<{ moods: Mood[] }> = ({ moods }) => {
   return (
-    <div className="grid justify-items-center">
-      <h1>How are you feeling today?</h1>
-      <MoodButtons moods={moods} />
-      <footer>
-        <div>
-          Icons made by{" "}
-          <a href="https://www.freepik.com" title="Freepik">
-            Freepik
-          </a>{" "}
-          from{" "}
-          <a href="https://www.flaticon.com/" title="Flaticon">
-            www.flaticon.com
-          </a>
+    <div className="w-full">
+      <main
+        role="main"
+        className="w-full flex flex-col h-screen content-center justify-center"
+      >
+        <div className="w-full sm:w-1/2 lg:w-1/3 bg-gray-50 rounded-xl m-auto">
+          <div className="bg-white rounded shadow px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+            <h1 className="w-full text-center p-7 text-3xl font-bold">
+              How are you feeling today?
+            </h1>
+            <MoodButtons moods={moods} />
+          </div>
         </div>
-      </footer>
+        <Footer />
+      </main>
     </div>
   );
 };
