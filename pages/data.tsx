@@ -1,4 +1,5 @@
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
+import dayjs from "dayjs";
 import prisma from "../lib/prisma";
 
 import type { MoodLog } from "@prisma/client";
@@ -31,7 +32,14 @@ export const getServerSideProps: GetServerSideProps<{ moodLogs: MoodLog[] }> =
   };
 
 export const getMoodLogs = async () => {
-  return await prisma.moodLog.findMany();
+  return await prisma.moodLog.findMany({
+    where: {
+      createdAt: {
+        lte: dayjs().day(0).toDate(),
+        gte: dayjs().day(6).toDate(),
+      },
+    },
+  });
 };
 
 export default DataPage;
