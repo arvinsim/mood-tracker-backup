@@ -4,13 +4,22 @@ import HappySmileyIcon from "./happy-smiley.svg";
 import SadSmileyIcon from "./sad-smiley.svg";
 import type { Mood } from "@prisma/client";
 
-export function MoodButtons({ moods }: { moods: Mood[] }) {
+export function MoodButtons({
+  moods,
+  setIsMoodChosen,
+}: {
+  moods: Mood[];
+  setIsMoodChosen: (flag: boolean) => void;
+}) {
   return (
     <div className="flex flex-row flex-auto w-full justify-around">
       {moods.map((mood) => {
         return (
           <div
-            onClick={async () => await createMoodLog({ mood })}
+            onClick={async () => {
+              await createMoodLog({ mood });
+              setIsMoodChosen(true);
+            }}
             key={mood.id}
             className={"cursor-pointer"}
           >
@@ -41,7 +50,9 @@ export const createMoodLog = async ({ mood }: { mood: Mood }) => {
     });
     const result = await response.json();
     console.log(result);
+    return result;
   } catch (e) {
     console.error(e);
+    throw e;
   }
 };
