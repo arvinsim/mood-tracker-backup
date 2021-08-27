@@ -1,12 +1,21 @@
+import { Prisma } from "@prisma/client";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
-import dayjs from "dayjs";
+// import dayjs from "dayjs";
 import prisma from "../lib/prisma";
-
-import type { MoodLog } from "@prisma/client";
 
 function DataPage({
   moodLogs,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  let pieChartData: { [key: number]: { moodName: string; count: number } } = {};
+  moodLogs.forEach((moodLog) => {
+    if (moodLog.moodId in pieChartData) {
+      pieChartData[moodLog.moodId].count++;
+    } else {
+      pieChartData[moodLog.moodId] = { moodName: moodLog.mood.name, count: 1 };
+    }
+  });
+  console.log(moodLogs);
+  console.log(pieChartData);
   return (
     <div>
       <h1>These is how you have been feeling this week!</h1>
@@ -23,22 +32,30 @@ function DataPage({
   );
 }
 
-export const getServerSideProps: GetServerSideProps<{ moodLogs: MoodLog[] }> =
-  async () => {
-    const moodLogs = await getMoodLogs();
-    return {
-      props: { moodLogs },
-    };
+export const getServerSideProps: GetServerSideProps<{
+  moodLogs: Prisma.PromiseReturnType<typeof getMoodLogs>;
+}> = async () => {
+  const moodLogs = await getMoodLogs();
+  return {
+    props: { moodLogs },
   };
+};
 
 export const getMoodLogs = async () => {
   return await prisma.moodLog.findMany({
-    where: {
-      createdAt: {
-        lte: dayjs().day(0).toDate(),
-        gte: dayjs().day(6).toDate(),
+    include: {
+      mood: {
+        select: {
+          name: true,
+        },
       },
     },
+    // where: {
+    //   createdAt: {
+    //     lte: dayjs().day(0).toDate(),
+    //     gte: dayjs().day(6).toDate(),
+    //   },
+    // },
   });
 };
 
