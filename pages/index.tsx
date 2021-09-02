@@ -26,17 +26,17 @@ const Home: NextPage = () => {
 
         <div className={styles.grid}>
           <Link href={"/moods"}>
-            <a href="/moods" className={styles.card}>
+            <div className={styles.card}>
               <h2>Moods &rarr;</h2>
               <p>Log your mood for the day</p>
-            </a>
+            </div>
           </Link>
 
           <Link href={"/data"}>
-            <a href="/data" className={styles.card}>
+            <div className={styles.card}>
               <h2>Data Analytics &rarr;</h2>
               <p>See your mood analysis this week.</p>
-            </a>
+            </div>
           </Link>
 
           {/*<a href="https://nextjs.org/docs" className={styles.card}>*/}
