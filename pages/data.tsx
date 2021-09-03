@@ -1,6 +1,8 @@
 import { PieChart, Pie, Tooltip } from "recharts";
 import useSWR from "swr";
 import type { MoodLogsWithMood } from "./api/moodLogs";
+import { Loader } from "../components/Loader";
+import React from "react";
 
 function DataPage() {
   const fetcher = async (...args) => {
@@ -18,7 +20,11 @@ function DataPage() {
 
   if (error) return <div>Failed to load</div>;
   if (!data) {
-    return <div>Loading...</div>;
+    return (
+      <div className="w-full flex flex-col h-screen content-center justify-center">
+        <Loader />
+      </div>
+    );
   }
 
   let pieChartData: { [key: number]: { moodName: string; count: number } } = {};
