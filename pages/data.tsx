@@ -1,6 +1,6 @@
 import { PieChart, Pie, Tooltip } from "recharts";
 import useSWR from "swr";
-import { MoodLogsWithMood } from "./api/moodLogs";
+import type { MoodLogsWithMood } from "./api/moodLogs";
 
 function DataPage() {
   const fetcher = async (...args) => {

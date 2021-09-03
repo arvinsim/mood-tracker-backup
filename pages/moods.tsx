@@ -1,14 +1,29 @@
 import React from "react";
-import type { NextPage } from "next";
-import { GetServerSideProps } from "next";
-import prisma from "../lib/prisma";
-
-import type { Mood } from "@prisma/client";
+import useSWR from "swr";
 import { MoodButtons } from "../components/MoodButtons";
 import { Footer } from "../components/Footer";
+import type { Moods } from "./api/moods";
 
-const MoodsPage: NextPage<{ moods: Mood[] }> = ({ moods }) => {
+function MoodsPage() {
   const [isMoodChosen, setIsMoodChosen] = React.useState(false);
+  const fetcher = async (...args) => {
+    try {
+      const result = await fetch(...args);
+      return result.json();
+    } catch (e) {
+      console.log("error fetching data");
+    }
+  };
+  const { data, error } = useSWR<{ moodLogs: Array<Moods> }>(
+    "/api/moods",
+    fetcher
+  );
+  if (error) return <div>Failed to load</div>;
+  if (!data) {
+    return <div>Loading...</div>;
+  }
+  console.log(data);
+
   return (
     <div className="w-full">
       <main
@@ -25,7 +40,10 @@ const MoodsPage: NextPage<{ moods: Mood[] }> = ({ moods }) => {
               )}
             </h1>
             {!isMoodChosen && (
-              <MoodButtons moods={moods} setIsMoodChosen={setIsMoodChosen} />
+              <MoodButtons
+                moods={data?.moods}
+                setIsMoodChosen={setIsMoodChosen}
+              />
             )}
           </div>
         </div>
@@ -33,17 +51,6 @@ const MoodsPage: NextPage<{ moods: Mood[] }> = ({ moods }) => {
       </main>
     </div>
   );
-};
-
-export const getServerSideProps: GetServerSideProps = async () => {
-  const moods = await getMoods();
-  return {
-    props: { moods },
-  };
-};
-
-export const getMoods = async () => {
-  return await prisma.mood.findMany();
-};
+}
 
 export default MoodsPage;
