@@ -4,7 +4,7 @@ import type { MoodLogsWithMood } from "./api/moodLogs";
 import { Loader } from "../components/Loader";
 import React from "react";
 
-function DataPage() {
+function MoodLogsPage() {
   const fetcher = async (...args) => {
     try {
       const result = await fetch(...args);
@@ -65,4 +65,4 @@ function DataPage() {
   );
 }
 
-export default DataPage;
+export default MoodLogsPage;
