@@ -3,6 +3,11 @@ import { Prisma } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../lib/prisma";
 
+type Data = {
+  moodLog?: MoodLog;
+  moodLogs?: Array<MoodLog>;
+};
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
@@ -33,19 +38,23 @@ export default async function handler(
     }
   } else if (req.method === "GET") {
     const moodLogs = await getMoodLogsWithMood();
-    res.status(200).json({ moodLogs });
+    res.status(200).json({ moodLogs: moodLogs });
   }
 }
 
 async function getMoodLogsWithMood() {
   return await prisma.moodLog.findMany({
     include: {
-      mood: {
-        select: {
-          name: true,
-        },
-      },
+      mood: true,
     },
+    // include: {
+    //   mood: {
+    //     select: {
+    //       id: true,
+    //       name: true,
+    //     },
+    //   },
+    // },
     // where: {
     //   createdAt: {
     //     lte: dayjs().day(0).toDate(),
@@ -55,9 +64,6 @@ async function getMoodLogsWithMood() {
   });
 }
 
-type Data = {
-  moodLog: MoodLog;
-};
 export type MoodLogsWithMood = Prisma.PromiseReturnType<
   typeof getMoodLogsWithMood
 >;

@@ -5,9 +5,9 @@ import { Loader } from "../components/Loader";
 import React from "react";
 
 function MoodLogsPage() {
-  const fetcher = async (...args) => {
+  const fetcher = async (input: RequestInfo, init: RequestInit) => {
     try {
-      const result = await fetch(...args);
+      const result = await fetch(input, init);
       return result.json();
     } catch (e) {
       console.log("error fetching data");
@@ -28,12 +28,14 @@ function MoodLogsPage() {
   }
 
   let pieChartData: { [key: number]: { moodName: string; count: number } } = {};
-  data?.moodLogs.forEach((moodLog) => {
+  data?.moodLogs?.forEach((moodLog) => {
+    // @ts-ignore
     const moodId = moodLog?.moodId;
     if (moodId in pieChartData) {
       pieChartData[moodId].count++;
     } else {
       pieChartData[moodId] = {
+        // @ts-ignore
         moodName: moodLog.mood.name,
         count: 1,
       };
@@ -42,7 +44,6 @@ function MoodLogsPage() {
   const chartData = Object.entries(pieChartData).map(([key, item]) => {
     return { id: key, moodName: item.moodName, count: item.count };
   });
-  console.log(chartData);
 
   return (
     <div className="w-full h-screen">

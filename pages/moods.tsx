@@ -7,18 +7,15 @@ import { Loader } from "../components/Loader";
 
 function MoodsPage() {
   const [isMoodChosen, setIsMoodChosen] = React.useState(false);
-  const fetcher = async (...args) => {
+  const fetcher = async (input: RequestInfo, init: RequestInit) => {
     try {
-      const result = await fetch(...args);
+      const result = await fetch(input, init);
       return result.json();
     } catch (e) {
       console.log("error fetching data");
     }
   };
-  const { data, error } = useSWR<{ moodLogs: Array<Moods> }>(
-    "/api/moods",
-    fetcher
-  );
+  const { data, error } = useSWR<{ moods: Moods }>("/api/moods", fetcher);
   if (error) return <div>Failed to load</div>;
   if (!data) {
     return (

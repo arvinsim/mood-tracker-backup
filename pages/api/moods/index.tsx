@@ -1,7 +1,11 @@
-import type { MoodLog } from "@prisma/client";
+import type { Mood } from "@prisma/client";
 import { Prisma } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../lib/prisma";
+
+type Data = {
+  moods: Array<Mood>;
+};
 
 export default async function handler(
   req: NextApiRequest,
@@ -17,7 +21,4 @@ async function getMoods() {
   return await prisma.mood.findMany();
 }
 
-type Data = {
-  moodLog: MoodLog;
-};
 export type Moods = Prisma.PromiseReturnType<typeof getMoods>;
